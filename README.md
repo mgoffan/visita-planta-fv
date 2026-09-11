@@ -4,8 +4,8 @@ Sitio estático e interactivo para recorrer la planta de Villa Rosa sobre un map
 
 ## Contenido actual
 
-- 21 fotografías optimizadas para web.
-- 8 paradas temáticas.
+- 28 fotografías optimizadas para web.
+- 9 paradas temáticas.
 - Contornos de 46 edificios obtenidos de OpenStreetMap bajo licencia ODbL.
 - Recorrido guiado y navegación libre por el mapa.
 

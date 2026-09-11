@@ -6,7 +6,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import * as maplibregl from 'maplibre-gl';
 import type { Map as MapLibreMap } from 'maplibre-gl';
 import type { FeatureCollection, LineString } from 'geojson';
-import { ArrowLeft, ArrowRight, Building2, Camera, Compass, Expand, Factory, Layers3, MapPin, Route, X } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Building2, Camera, ClipboardCheck, Compass, Expand, Factory, Layers3, MapPin, Route, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import { photoSrc, plantCenter, tourStops } from './tour-data';
@@ -32,6 +32,7 @@ export function FactoryTour() {
   const [lightboxPhoto, setLightboxPhoto] = useState<string | null>(null);
   const [panelOpen, setPanelOpen] = useState(true);
   const activeStop = tourStops[activeIndex];
+  const totalPhotos = tourStops.reduce((total, stop) => total + stop.photos.length, 0);
 
   const routeGeoJson = useMemo<FeatureCollection<LineString>>(
     () => ({
@@ -187,6 +188,12 @@ export function FactoryTour() {
             <span className="status-pill"><MapPin /> ubicación orientativa</span>
           </div>
           <p className="stop-description">{activeStop.description}</p>
+          <div className="observation-card">
+            <div className="observation-title"><ClipboardCheck /> Lo que observamos</div>
+            <ul>
+              {activeStop.observations.map((observation) => <li key={observation}>{observation}</li>)}
+            </ul>
+          </div>
           <button className="hero-photo" onClick={() => setLightboxPhoto(activeStop.photos[0])}>
             <img src={photoSrc(activeStop.photos[0])} alt={`${activeStop.title}: vista principal`} />
             <span><Expand /> Ampliar</span>
@@ -214,7 +221,7 @@ export function FactoryTour() {
       <div className="legend-card">
         <span><i className="legend-route" /> Recorrido</span>
         <span><i className="legend-building" /> Naves</span>
-        <span><Camera /> 21 fotos</span>
+        <span><Camera /> {totalPhotos} fotos</span>
       </div>
 
       <Dialog open={lightboxPhoto !== null} onOpenChange={(open) => !open && setLightboxPhoto(null)}>
